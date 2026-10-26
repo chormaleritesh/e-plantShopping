@@ -1,78 +1,80 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "./CartSlice";
+import { addItem } from "./CartSlice.jsx";
 
 const plants = [
-  { id: 1, name: "Snake Plant", category: "Indoor Plants", price: 299, image: "https://images.unsplash.com/photo-1593482892290-f54927ae2b7b?w=400" },
-  { id: 2, name: "Peace Lily", category: "Indoor Plants", price: 399, image: "https://images.unsplash.com/photo-1593691509543-c55fb32e5cee?w=400" },
-  { id: 3, name: "Monstera", category: "Indoor Plants", price: 499, image: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400" },
-  { id: 4, name: "Aloe Vera", category: "Indoor Plants", price: 199, image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=400" },
-  { id: 5, name: "Spider Plant", category: "Indoor Plants", price: 249, image: "https://images.unsplash.com/photo-1572688484438-313a6e50c333?w=400" },
-  { id: 6, name: "Areca Palm", category: "Indoor Plants", price: 599, image: "https://images.unsplash.com/photo-1512428813834-c702c7702b78?w=400" },
-  { id: 7, name: "Rose", category: "Outdoor Plants", price: 299, image: "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=400" },
-  { id: 8, name: "Hibiscus", category: "Outdoor Plants", price: 249, image: "https://images.unsplash.com/photo-1597055181300-ade3d8b9e4f7?w=400" },
-  { id: 9, name: "Jasmine", category: "Outdoor Plants", price: 199, image: "https://images.unsplash.com/photo-1597848212624-e6e7c7d6c5c4?w=400" },
-  { id: 10, name: "Bougainvillea", category: "Outdoor Plants", price: 349, image: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400" },
-  { id: 11, name: "Marigold", category: "Outdoor Plants", price: 149, image: "https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=400" },
-  { id: 12, name: "Petunia", category: "Outdoor Plants", price: 179, image: "https://images.unsplash.com/photo-1469259943454-aa100abba749?w=400" },
-  { id: 13, name: "Basil", category: "Herbs", price: 99, image: "https://images.unsplash.com/photo-1618375569909-3c8616cf7733?w=400" },
-  { id: 14, name: "Mint", category: "Herbs", price: 89, image: "https://images.unsplash.com/photo-1628556270448-4d4e4148e1b1?w=400" },
-  { id: 15, name: "Rosemary", category: "Herbs", price: 149, image: "https://images.unsplash.com/photo-1515586000433-45406d8e6662?w=400" },
-  { id: 16, name: "Thyme", category: "Herbs", price: 129, image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400" },
-  { id: 17, name: "Coriander", category: "Herbs", price: 79, image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=400" },
-  { id: 18, name: "Oregano", category: "Herbs", price: 139, image: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=400" }
+  { id: 1, name: "Snake Plant", category: "Indoor Plants", price: 399, cost: 399, description: "A hardy, low-maintenance plant that looks great in any room.", image: "https://images.unsplash.com/photo-1593482892290-f54927ae2b7b?auto=format&fit=crop&w=700&q=80" },
+  { id: 2, name: "Monstera Deliciosa", category: "Indoor Plants", price: 699, cost: 699, description: "Beautiful split leaves that bring a tropical feel indoors.", image: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=700&q=80" },
+  { id: 3, name: "Rubber Plant", category: "Indoor Plants", price: 599, cost: 599, description: "Glossy leaves and a bold look for bright indoor spaces.", image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=700&q=80" },
+  { id: 4, name: "ZZ Plant", category: "Indoor Plants", price: 449, cost: 449, description: "A resilient plant that tolerates lower-light conditions.", image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=700&q=80" },
+  { id: 5, name: "Peace Lily", category: "Indoor Plants", price: 499, cost: 499, description: "Elegant deep-green leaves and delicate white blooms.", image: "https://images.unsplash.com/photo-1593691509543-c55fb32e5cee?auto=format&fit=crop&w=700&q=80" },
+  { id: 6, name: "Areca Palm", category: "Indoor Plants", price: 799, cost: 799, description: "Feathery palm fronds for a fresh, tropical atmosphere.", image: "https://images.unsplash.com/photo-1597055181300-a8f3a1c1a4c4?auto=format&fit=crop&w=700&q=80" },
+  { id: 7, name: "Aloe Vera", category: "Outdoor Plants", price: 249, cost: 249, description: "A sun-loving succulent that needs little watering.", image: "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=700&q=80" },
+  { id: 8, name: "Jade Plant", category: "Outdoor Plants", price: 299, cost: 299, description: "A compact succulent with thick, glossy leaves.", image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=700&q=80" },
+  { id: 9, name: "Bougainvillea", category: "Outdoor Plants", price: 549, cost: 549, description: "Colourful blooms for sunny patios and gardens.", image: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=700&q=80" },
+  { id: 10, name: "Hibiscus", category: "Outdoor Plants", price: 399, cost: 399, description: "A flowering plant that adds vibrant colour outdoors.", image: "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=700&q=80" },
+  { id: 11, name: "Croton", category: "Outdoor Plants", price: 449, cost: 449, description: "Brightly coloured foliage for a sunny garden corner.", image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=700&q=80" },
+  { id: 12, name: "Fern", category: "Outdoor Plants", price: 349, cost: 349, description: "Lush foliage that looks lovely in shaded spaces.", image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=700&q=80" },
+  { id: 13, name: "Mint", category: "Herbs", price: 89, cost: 89, description: "Fresh aromatic leaves for drinks and everyday cooking.", image: "https://images.unsplash.com/photo-1628556270448-4d4e4148e1b1?auto=format&fit=crop&w=700&q=80" },
+  { id: 14, name: "Rosemary", category: "Herbs", price: 149, cost: 149, description: "Fragrant evergreen leaves for cooking.", image: "https://images.unsplash.com/photo-1515586000433-45406d8e6662?auto=format&fit=crop&w=700&q=80" },
+  { id: 15, name: "Thyme", category: "Herbs", price: 129, cost: 129, description: "A compact herb with aromatic leaves.", image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=700&q=80" },
+  { id: 16, name: "Coriander", category: "Herbs", price: 79, cost: 79, description: "Fresh green leaves for garnishes and curries.", image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&w=700&q=80" },
+  { id: 17, name: "Oregano", category: "Herbs", price: 139, cost: 139, description: "A classic culinary herb with a rich aroma.", image: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=700&q=80" },
+  { id: 18, name: "Basil", category: "Herbs", price: 99, cost: 99, description: "A fragrant kitchen herb for salads and sauces.", image: "https://images.unsplash.com/photo-1618375569909-3c8616cf7733?auto=format&fit=crop&w=700&q=80" }
 ];
+
+const categories = ["Indoor Plants", "Outdoor Plants", "Herbs"];
 
 export default function ProductList({ onContinueShopping, onShowCart, onShowPlants }) {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items || []);
+  const cartCount = cartItems.reduce((total, item) => total + Number(item.quantity || 0), 0);
 
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-
-  const categories = ["Indoor Plants", "Outdoor Plants", "Herbs"];
+  const addedToCart = (plant) =>
+    cartItems.some((item) => item.id === plant.id);
 
   return (
-    <main className="product-list-container">
-      <h1>Our Plants</h1>
-      <p>Discover the perfect plants for your home and garden.</p>
-
-      <nav className="navbar" aria-label="Plant shop navigation">
-        <button onClick={onContinueShopping}>Home</button>
-        <button onClick={onShowPlants}>Plants</button>
-        <button onClick={onShowCart}>Cart ({cartCount})</button>
+    <main className="page-container products-page app-container" id="plants">
+      <nav className="products-rubric-nav navbar" aria-label="Plant shop navigation">
+        <button className="nav-link" onClick={onContinueShopping}>Home</button>
+        <button className="nav-link" onClick={onShowPlants}>Plants</button>
+        <button className="nav-link cart-nav" onClick={onShowCart}>
+          🛒 Cart <span className="cart-count cart_quantity">{cartCount}</span>
+        </button>
       </nav>
 
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">FIND YOUR GREEN</p>
+          <h1>Plants for Every Space</h1>
+          <p className="muted">Choose your favourites and make your space feel alive.</p>
+        </div>
+      </div>
+
       {categories.map((category) => (
-        <section key={category}>
-          <h2>{category}</h2>
-
-          <div className="product-grid">
-            {plants
-              .filter((plant) => plant.category === category)
-              .map((plant) => {
-                const inCart = cartItems.some((item) => item.id === plant.id);
-
-                return (
-                  <article className="plant-card" key={plant.id}>
-                    <img
-                      src={plant.image}
-                      alt={plant.name}
-                      style={{ width: "100%", height: "180px", objectFit: "cover" }}
-                    />
-
-                    <h3>{plant.name}</h3>
-                    <p>Price: ₹{plant.price}</p>
-
+        <section className="plant-category-section" key={category}>
+          <h2 className="category-heading">{category}</h2>
+          <div className="plant-grid">
+            {plants.filter((plant) => plant.category === category).map((plant) => (
+              <article className="plant-card" key={plant.id}>
+                <img src={plant.image} alt={plant.name} loading="lazy" />
+                <div className="plant-info">
+                  <span className="plant-category">{plant.category}</span>
+                  <h3>{plant.name}</h3>
+                  <p>{plant.description}</p>
+                  <div className="plant-card-bottom">
+                    <strong>₹{plant.price}</strong>
                     <button
                       className="button button-primary"
-                      disabled={inCart}
+                      disabled={addedToCart(plant)}
                       onClick={() => dispatch(addItem(plant))}
                     >
-                      {inCart ? "Added to Cart" : "Add to Cart"}
+                      {addedToCart(plant) ? "Added to Cart" : "Add to Cart"}
                     </button>
-                  </article>
-                );
-              })}
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
       ))}

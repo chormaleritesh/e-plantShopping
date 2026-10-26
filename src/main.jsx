@@ -7,7 +7,9 @@ import cartReducer from "./CartSlice.jsx";
 import "./App.css";
 
 const store = configureStore({
-  reducer: { cart: cartReducer }
+  reducer: {
+    cart: cartReducer
+  }
 });
 
 createRoot(document.getElementById("root")).render(
