@@ -1,26 +1,25 @@
 # Paradise Nursery Shopping Application
 
-Paradise Nursery is a React and Redux Toolkit plant-shopping application.
+**Project repository:** e-plantShopping
+
+Paradise Nursery is a React shopping application for browsing and purchasing houseplants. It uses React, Vite, Redux Toolkit, and React Redux.
 
 ## Features
-- Landing page with Paradise Nursery branding and a Get Started button
-- About Us section and background image
-- Three plant categories with six plants in each category
-- Plant thumbnails, names, descriptions, and prices
-- Add-to-cart buttons that disable after a plant is added
-- Dynamic cart icon showing total item quantity
-- Cart page with unit price, line total, increase/decrease controls, and delete buttons
-- Automatically calculated order total
-- Continue Shopping navigation and a Coming Soon checkout message
-- Responsive layout
+- Paradise Nursery landing page with the required heading and Get Started button
+- About Us company information
+- Three plant categories with six plants per category, including image, name, description, and price
+- Add-to-cart functionality and disabled buttons after adding
+- Navigation for Home, Plants, and Cart with a dynamic cart quantity
+- Shopping cart with unit prices, line totals, quantity increase/decrease, and delete controls
+- Automatically calculated total price
+- Checkout Coming Soon message and Continue Shopping button
 
 ## Run locally
 1. Install Node.js LTS.
-2. Open the project folder in VS Code.
-3. Open Terminal > New Terminal.
-4. Run `npm install`.
-5. Run `npm run dev`.
-6. Open the local URL shown in the terminal.
+2. Open this folder in VS Code.
+3. Open Terminal and run `npm install`.
+4. Run `npm run dev`.
+5. Open the local URL printed in the terminal.
 
 ## Assignment files
 - `README.md`
