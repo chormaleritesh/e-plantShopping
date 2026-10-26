@@ -1,64 +1,110 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart, removeItem, updateQuantity } from "./CartSlice.jsx";
+import { addItem, removeItem, updateQuantity } from "./CartSlice";
 
 export default function CartItem({ onContinueShopping }) {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.cart.items);
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const handleRemove = (item) => dispatch(removeItem(item.id));
-  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+  const items = useSelector((state) => state.cart.items || []);
 
-  if (!items.length) {
-    return (
-      <main className="page-container cart-page cart-container">
-        <div className="empty-cart">
-          <div className="empty-icon">🛒</div>
-          <h1>Your cart is waiting for a little green.</h1>
-          <p className="muted">You haven't added any plants yet.</p>
-          <button className="button button-primary" onClick={onContinueShopping}>Browse plants</button>
-        </div>
-      </main>
-    );
-  }
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const totalCost = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
-    <main className="page-container cart-page cart-container">
-      <div className="section-heading">
+    <main className="cart-container">
+      <h1>Shopping Cart</h1>
+      <p>Total plants: {totalItems}</p>
+
+      {items.length === 0 ? (
         <div>
-          <p className="eyebrow">YOUR SELECTION</p>
-          <h1>Shopping Cart <span className="count-badge">{totalQuantity}</span></h1>
+          <p>Your shopping cart is empty.</p>
+          <button onClick={onContinueShopping}>
+            Continue Shopping
+          </button>
         </div>
-        <button className="button button-outline" onClick={onContinueShopping}>← Continue shopping</button>
-      </div>
-      <div className="cart-layout">
-        <section className="cart-list">
+      ) : (
+        <>
           {items.map((item) => (
-            <article className="cart-row cart-item" key={item.id}>
-              <img src={item.image} alt={item.name} />
-              <div className="cart-product">
-                <h2>{item.name}</h2>
-                <p className="muted">₹{item.price} each</p>
-                <button className="text-button remove-button cart-item-delete" onClick={() => handleRemove(item)}>Remove</button>
+            <article
+              className="cart-item"
+              key={item.id}
+              style={{
+                display: "flex",
+                gap: "20px",
+                alignItems: "center",
+                marginBottom: "20px"
+              }}
+            >
+              <img
+                src={item.image}
+                alt={item.name}
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  objectFit: "cover"
+                }}
+              />
+
+              <div>
+                <h3>{item.name}</h3>
+                <p>Unit price: ₹{item.price}</p>
+                <p>Quantity: {item.quantity}</p>
+                <p>Subtotal: ₹{item.price * item.quantity}</p>
+
+                <button
+                  onClick={() =>
+                    item.quantity > 1
+                      ? dispatch(
+                          updateQuantity({
+                            id: item.id,
+                            quantity: item.quantity - 1
+                          })
+                        )
+                      : dispatch(removeItem(item.id))
+                  }
+                >
+                  −
+                </button>
+
+                <button
+                  onClick={() =>
+                    dispatch(
+                      updateQuantity({
+                        id: item.id,
+                        quantity: item.quantity + 1
+                      })
+                    )
+                  }
+                >
+                  +
+                </button>
+
+                <button onClick={() => dispatch(removeItem(item.id))}>
+                  Delete
+                </button>
               </div>
-              <div className="quantity-control" aria-label={`Quantity for ${item.name}`}>
-                <button aria-label="Decrease quantity" onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }))}>−</button>
-                <span>{item.quantity}</span>
-                <button aria-label="Increase quantity" onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }))}>+</button>
-              </div>
-              <strong className="line-total">₹{item.price * item.quantity}</strong>
             </article>
           ))}
-        </section>
-        <aside className="order-summary">
-          <h2>Order summary</h2>
-          <div className="summary-line"><span>Items ({totalQuantity})</span><span>₹{total}</span></div>
-          <div className="summary-line"><span>Delivery</span><span className="free-label">FREE</span></div>
-          <div className="summary-total"><span>Total</span><strong>₹{total}</strong></div>
-          <button className="button button-primary checkout-button" onClick={() => window.alert("Thank you! Your demo order total is ₹" + total + ".")}>Checkout</button>
-          <button className="text-button clear-button" onClick={() => dispatch(clearCart())}>Clear cart</button>
-        </aside>
-      </div>
+
+          <h2>Total Cost: ₹{totalCost}</h2>
+
+          <button
+            onClick={() => alert("Coming Soon!")}
+          >
+            Checkout
+          </button>
+
+          <button
+            className="button button-outline"
+            onClick={onContinueShopping}
+          >
+            Continue Shopping
+          </button>
+        </>
+      )}
     </main>
   );
 }
