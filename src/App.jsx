@@ -9,20 +9,24 @@ export default function App() {
   const cartItems = useSelector((state) => state.cart.items);
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  const showHome = () => { setPage("home"); window.scrollTo({ top: 0, behavior: "smooth" }); };
-  const showPlants = () => { setPage("plants"); window.scrollTo({ top: 0, behavior: "smooth" }); };
-  const showCart = () => { setPage("cart"); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const navigate = (destination) => {
+    setPage(destination);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="app-shell">
       <header className="navbar">
-        <button className="brand" onClick={showHome} aria-label="Paradise Nursery home">
-          <span className="brand-icon">🌿</span><span>Paradise<span className="brand-light">Nursery</span></span>
+        <button className="brand" onClick={() => navigate("home")} aria-label="Paradise Nursery home">
+          <span className="brand-icon">🌿</span>
+          <span>Paradise<span className="brand-light">Nursery</span></span>
         </button>
-        <nav>
-          <button className={page === "home" ? "nav-link active" : "nav-link"} onClick={showHome}>Home</button>
-          <button className={page === "plants" ? "nav-link active" : "nav-link"} onClick={showPlants}>Shop Plants</button>
-          <button className="nav-link cart-nav" onClick={showCart}>🛒 Cart <span className="cart-count">{cartCount}</span></button>
+        <nav aria-label="Main navigation">
+          <button className={page === "home" ? "nav-link active" : "nav-link"} onClick={() => navigate("home")}>Home</button>
+          <button className={page === "plants" ? "nav-link active" : "nav-link"} onClick={() => navigate("plants")}>Plants</button>
+          <button className={page === "cart" ? "nav-link active cart-nav" : "nav-link cart-nav"} onClick={() => navigate("cart")}>
+            🛒 Cart <span className="cart-count">{cartCount}</span>
+          </button>
         </nav>
       </header>
 
@@ -34,7 +38,7 @@ export default function App() {
               <span className="hero-pill">GROW SOMETHING GOOD</span>
               <h1>Bring nature<br />into your <em>home.</em></h1>
               <p>Thoughtfully chosen plants to make your space calmer, brighter, and more alive.</p>
-              <button className="button button-light" onClick={showPlants}>Get Started <span>→</span></button>
+              <button className="button button-light" onClick={() => navigate("plants")}>Get Started <span>→</span></button>
               <div className="hero-note">🌱 Easy-care plants · Green living made simple</div>
             </div>
           </main>
@@ -44,11 +48,11 @@ export default function App() {
             <div><span>💚</span><h3>Beginner friendly</h3><p>Find the right plant for your lifestyle.</p></div>
           </section>
           <AboutUs />
-          <section className="home-cta"><h2>Your greener home starts here.</h2><button className="button button-primary" onClick={showPlants}>Explore our plants →</button></section>
+          <section className="home-cta"><h2>Your greener home starts here.</h2><button className="button button-primary" onClick={() => navigate("plants")}>Explore our plants →</button></section>
         </>
       )}
-      {page === "plants" && <ProductList onContinueShopping={showHome} />}
-      {page === "cart" && <CartItem onContinueShopping={showPlants} />}
+      {page === "plants" && <ProductList onContinueShopping={() => navigate("home")} onShowCart={() => navigate("cart")} onShowPlants={() => navigate("plants")} />}
+      {page === "cart" && <CartItem onContinueShopping={() => navigate("plants")} />}
 
       <footer className="footer"><span>🌿 Paradise Nursery</span><span>Grow joy. Live green.</span><span>© {new Date().getFullYear()} Paradise Nursery</span></footer>
     </div>
